@@ -1,0 +1,52 @@
+﻿<section>
+    <ul class="nav nav-pills">
+        <li ng-class="{active:panel.isSelected(1)}"><a href ng-click="panel.selectTab(1)">Description</a></li>
+        <li ng-class="{active:panel.isSelected(2)}"><a href ng-click="panel.selectTab(2)">Specifications</a></li>
+        <li ng-class="{active:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)">Reviews</a></li>
+    </ul>
+    <div class="panel" ng-show="panel.isSelected(1)">
+        <h4>Description</h4>
+        <p>{{product.description}}</p>
+    </div>
+    <div class="panel" ng-show="panel.isSelected(2)">
+        <h4>Specification</h4>
+        <blockquote>None Yet</blockquote>
+    </div>
+    <div class="panel" ng-show="panel.isSelected(3)">
+        <h4>Reviews</h4>
+        <blockquote ng-repeat="review in product.reviews">
+            <strong>Stars: {{review.stars}}</strong><br />
+            {{review.body}}<br />
+            <cite>by: {{review.author}}</cite>
+        </blockquote>
+        <h3>Submit a Review</h3>
+        <form name="reviewForm" 
+            ng-controller="ReviewController as reviewCtrl"
+            ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)"
+            novalidate>
+            <blockquote>
+                <strong>Stars: {{reviewCtrl.review.stars}}</strong><br />
+                {{reviewCtrl.review.body}}<br />
+                <cite>by: {{reviewCtrl.review.author}}</cite>
+            </blockquote>
+            <div class="form-group">
+                <select ng-model="reviewCtrl.review.stars" required>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <textarea ng-model="reviewCtrl.review.body" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>by:</label>
+                <input type="email" ng-model="reviewCtrl.review.author" required />
+            </div>
+            <div>reviewForm is {{reviewForm.$valid}}</div>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+</section>
